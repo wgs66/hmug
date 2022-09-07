@@ -7,6 +7,8 @@ fly.config.timeout = 3000
 fly.interceptors.request.use((request) => {
   //给所有请求添加自定义header
   request.headers["X-Tag"] = "flyio";
+
+  toast.loading()
   //打印出请求体
   // console.log(request.body)
   //终止请求
@@ -22,6 +24,7 @@ fly.interceptors.request.use((request) => {
 fly.interceptors.response.use(
   (response) => {
     //只将请求结果的data字段返回
+    uni.hideToast()
     return response.data.message
   },
   (err) => {

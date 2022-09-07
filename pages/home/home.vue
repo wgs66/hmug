@@ -37,13 +37,15 @@
         <view class="floor-img-box">
           <!-- 左侧大图片的盒子 -->
           <view class="left-img-box">
-            <image :style="{width:item.product_list[0].image_width + 'rpx'}" :src="item.product_list[0].image_src"
+            <image @click="goGoodsList(item.product_list[0].navigator_url)"
+              :style="{width:item.product_list[0].image_width + 'rpx'}" :src="item.product_list[0].image_src"
               class="left-img"></image>
           </view>
           <!-- 右侧 4 个小图片的盒子 -->
           <view class="right-img-box">
-            <view class="right-img-item" v-for="(item2,i2) in item.product_list" v-if="i2 !== 0">
-              <image class="image-item" :style="{width:item2.image_width + 'rpx'}" :src='item2.image_src'></image>
+            <view class="right-img-item" v-for="(item2,i2) in item.product_list" v-if="i2 !== 0" :key='i2'>
+              <image @click="goGoodsList(item2.navigator_url)" class="image-item"
+                :style="{width:item2.image_width + 'rpx'}" :src='item2.image_src'></image>
             </view>
           </view>
         </view>
@@ -72,9 +74,7 @@
     },
     methods: {
       // 轮播数据
-
-
-
+      // 获取轮播
       async getBanners() {
         const res = await getBanners()
         // console.log(res)
@@ -99,9 +99,17 @@
           })
         }
       },
+      // 获取楼层
       async getfloors() {
         const res = await getfloors()
         this.foolrs = res
+      },
+      goGoodsList(url) {
+        // console.log(url)
+        // console.log(url.split('?')[1])
+        uni.navigateTo({
+          url: '/subpkg/goodsList/goodsList?' + url.split('?')[1]
+        })
       }
     },
     onLoad() {
